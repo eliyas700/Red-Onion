@@ -13,7 +13,7 @@ const Homepage = () => {
   };
   return (
     <div style={homepage} className="py-4">
-      <h1 className="py-5 ">Best Food Waiting For Your Belly</h1>
+      <h1 className="py-5  text-center ">Best Food Waiting For Your Belly</h1>
       <div className="SearchBox my-5">
         <input
           type="text"

@@ -10,8 +10,10 @@ const Header = () => {
     <>
       <Navbar bg="light" expand="lg">
         <Container fluid className="nav-bar">
-          <Navbar.Brand href="#">
-            <img as={Link} to="/" height={30} src={logo} alt="" />{" "}
+          <Navbar.Brand>
+            <Link to="/">
+              <img height={30} src={logo} alt="" />{" "}
+            </Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
