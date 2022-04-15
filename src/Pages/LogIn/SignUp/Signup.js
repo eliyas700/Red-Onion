@@ -2,26 +2,65 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import "./signup.css";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+  useCreateUserWithEmailAndPassword,
+  useSendEmailVerification,
+  useUpdateProfile,
+} from "react-firebase-hooks/auth";
 import auth from "../../../Firebase/firebase.init";
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [warning, setWarning] = useState("");
   const [checked, setChecked] = useState(false);
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
-
+  const [updateProfile, updating, updatingError] = useUpdateProfile(auth);
+  const [sendEmailVerification, sending, verificationError] =
+    useSendEmailVerification(auth);
   if (user) {
     navigate("/home");
+    console.log(user);
   }
-  const handleCreateUser = (event) => {
+  let errormsg;
+
+  if (error || updatingError) {
+    errormsg = error?.message;
+  }
+  const handleCreateUser = async (event) => {
     event.preventDefault();
     const name = event.target.name.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
     const confirmPass = event.target.confirmPass.value;
-    createUserWithEmailAndPassword(email, password);
+    password.length < 6 &&
+      setWarning("Password Must Have at-least 6 Characters");
+    if (password === confirmPass) {
+      setWarning("");
+      await createUserWithEmailAndPassword(email, password);
+
+      await sendEmailVerification();
+      if (user.emailVerified) {
+        await updateProfile({ displayName: name });
+      } else {
+        setWarning(
+          <div>
+            <h3 className="text-center my-3 text-danger">
+              Please Verify Your Email First
+            </h3>
+            <button
+              onClick={sendEmailVerification()}
+              className="btn btn-link text-danger"
+            >
+              Resend Verification Message?
+            </button>
+          </div>
+        );
+      }
+    } else {
+      setWarning("Sorry Password Didn't Match");
+    }
   };
   return (
     <div className="submit-form mx-auto">
@@ -35,6 +74,7 @@ const Signup = () => {
             type="text"
             name="name"
             required
+            defaultValue="Eliyas Hossain"
             placeholder="Enter  your Name"
           />
         </Form.Group>
@@ -43,6 +83,7 @@ const Signup = () => {
           <Form.Control
             type="email"
             required
+            defaultValue="Eliyas"
             name="email"
             placeholder="Enter email"
           />
@@ -76,6 +117,9 @@ const Signup = () => {
             label="Accept the terms and conditions of Red-Onion"
           />
         </Form.Group>
+        <div>
+          <p className="text-danger">{errormsg || warning}</p>
+        </div>
         <Button className="btn-onion" disabled={!checked} type="submit">
           Sign Up
         </Button>
