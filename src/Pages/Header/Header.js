@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo2.png";
 import { FiShoppingCart } from "react-icons/fi";
@@ -11,7 +11,7 @@ const Header = () => {
       <Navbar bg="light" expand="lg">
         <Container fluid className="nav-bar">
           <Navbar.Brand href="#">
-            <img height={30} src={logo} alt="" />{" "}
+            <img as={Link} to="/" height={30} src={logo} alt="" />{" "}
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">

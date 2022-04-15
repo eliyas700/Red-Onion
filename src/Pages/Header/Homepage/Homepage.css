@@ -1,0 +1,60 @@
+:root {
+    --primary-color: #00bcd4;
+    --accent-color: #E81C2E;
+    --text-color: #263238;
+    --body-color: #80deea;
+    --main-font: 'roboto';
+    --font-bold: 700;
+    --font-regular: 400;
+}
+
+.SearchBox {
+    display: flex;
+    justify-content: center;
+    border-radius: 4em;
+    background-color: transparent;
+    height: 4em;
+    margin: 0 auto;
+}
+
+.SearchBox:hover .SearchBox-input {
+    padding-left: 2em;
+    padding-right: 1em;
+    width: 240px;
+}
+
+.SearchBox-input {
+    width: 0;
+    border: none !important;
+    outline: 0;
+    font-size: 1.2em;
+    color: black;
+    transition: .45s;
+    border-radius: 20px;
+
+}
+
+.SearchBox-button {
+    display: flex;
+    border-radius: 50%;
+    width: var(--height);
+    height: var(--height);
+    background-color: var(--accent-color);
+    transition: .3s;
+}
+
+.SearchBox-button:active {
+    transform: scale(.85);
+}
+
+.SearchBox-icon {
+    margin: auto;
+    color: #fff;
+}
+
+
+@media screen and (min-width: 400px) {
+    .SearchBox:hover .SearchBox-input {
+        width: 500px;
+    }
+}
